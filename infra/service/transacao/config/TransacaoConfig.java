@@ -4,7 +4,6 @@ import financeira.gestao.demo.infra.service.transacao.operacoes.*;
 import financeira.gestao.demo.infra.service.transacao.transacaoService.TransacaoService;
 import financeira.gestao.demo.domain.repository.TransacaoRepository;
 import financeira.gestao.demo.infra.service.cambio.CambioService;
-import financeira.gestao.demo.service.transacao.operacoes.*;
 import financeira.gestao.demo.infra.service.transacao.transacaoService.TransacaoServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
