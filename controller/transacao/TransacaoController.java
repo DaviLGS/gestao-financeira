@@ -1,8 +1,8 @@
 package financeira.gestao.demo.controller.transacao;
 
-import financeira.gestao.demo.application.dto.request.ConverterRequest;
 import financeira.gestao.demo.application.dto.request.TransacaoRequest;
 import financeira.gestao.demo.application.dto.response.TransacaoResponse;
+import financeira.gestao.demo.infra.seguranca.UsuarioDetalhes;
 import financeira.gestao.demo.service.cambio.CambioService;
 import financeira.gestao.demo.service.exportarXls.ExportacaoTransacaoService;
 import financeira.gestao.demo.service.transacao.transacaoService.TransacaoService;
@@ -11,9 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,19 +25,24 @@ public class TransacaoController {
     private final ExportacaoTransacaoService exportacaoService;
     private final CambioService cambioService;
 
-    public TransacaoController(TransacaoService transacaoService,
-                               ExportacaoTransacaoService exportacaoService,
-                               CambioService cambioService) {
+    public TransacaoController(
+            TransacaoService transacaoService,
+            ExportacaoTransacaoService exportacaoService,
+            CambioService cambioService
+    ) {
         this.transacaoService = transacaoService;
         this.exportacaoService = exportacaoService;
-        this.cambioService= cambioService;
+        this.cambioService = cambioService;
     }
 
     @PostMapping
     public ResponseEntity<TransacaoResponse> criar(
-            @RequestParam Long userId,
-            @RequestBody @Valid TransacaoRequest request
+            @RequestBody @Valid TransacaoRequest request,
+            Authentication authentication
     ) {
+        UsuarioDetalhes usuario =
+                (UsuarioDetalhes) authentication.getPrincipal();
+
         if (request.getMoeda() == null) {
             request.setMoeda("BRL");
         }
@@ -47,7 +52,7 @@ public class TransacaoController {
         }
 
         TransacaoResponse response =
-                transacaoService.executar(request, userId);
+                transacaoService.executar(request, usuario.getId());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -56,24 +61,35 @@ public class TransacaoController {
 
     @GetMapping
     public ResponseEntity<List<TransacaoResponse>> listarPorPeriodo(
-            @RequestParam Long userId,
             @RequestParam LocalDateTime inicio,
-            @RequestParam LocalDateTime fim
+            @RequestParam LocalDateTime fim,
+            Authentication authentication
     ) {
+        UsuarioDetalhes usuario =
+                (UsuarioDetalhes) authentication.getPrincipal();
+
         List<TransacaoResponse> transacoes =
-                transacaoService.listarPorPeriodo(userId, inicio, fim);
+                transacaoService.listarPorPeriodo(
+                        usuario.getId(), inicio, fim
+                );
 
         return ResponseEntity.ok(transacoes);
     }
 
     @GetMapping("/exportar")
-    public ResponseEntity<byte[]> exportar(@RequestParam Long userId) {
+    public ResponseEntity<byte[]> exportar(Authentication authentication) {
 
-        byte[] arquivo = exportacaoService.exportarTransacoes(userId);
+        UsuarioDetalhes usuario =
+                (UsuarioDetalhes) authentication.getPrincipal();
+
+        byte[] arquivo =
+                exportacaoService.exportarTransacoes(usuario.getId());
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"transacoes.xlsx\"")
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"transacoes.xlsx\""
+                )
                 .contentType(
                         MediaType.parseMediaType(
                                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -81,7 +97,7 @@ public class TransacaoController {
                 )
                 .body(arquivo);
     }
-
+/*
     @PostMapping("/converter")
     public ResponseEntity<BigDecimal> converter(@RequestBody ConverterRequest request) {
         BigDecimal valorConvertido = cambioService.converterParaBRL(
@@ -90,5 +106,5 @@ public class TransacaoController {
         );
 
         return ResponseEntity.ok(valorConvertido);
-    }
+    }*/
 }

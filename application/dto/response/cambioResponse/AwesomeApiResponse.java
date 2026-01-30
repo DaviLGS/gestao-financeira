@@ -1,24 +1,39 @@
 package financeira.gestao.demo.application.dto.response.cambioResponse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class AwesomeApiResponse {
 
+    @JsonProperty("USDBRL")
     private AwesomeApiPair USDBRL;
+
+    @JsonProperty("EURBRL")
     private AwesomeApiPair EURBRL;
 
-    public AwesomeApiPair getUSDBRL() { return USDBRL; }
-    public void setUSDBRL(AwesomeApiPair uSDBRL) { USDBRL = uSDBRL; }
+    public AwesomeApiPair getUSDBRL() {
+        return USDBRL;
+    }
 
-    public AwesomeApiPair getEURBRL() { return EURBRL; }
-    public void setEURBRL(AwesomeApiPair eURBRL) { EURBRL = eURBRL; }
+    public void setUSDBRL(AwesomeApiPair USDBRL) {
+        this.USDBRL = USDBRL;
+    }
+
+    public AwesomeApiPair getEURBRL() {
+        return EURBRL;
+    }
+
+    public void setEURBRL(AwesomeApiPair EURBRL) {
+        this.EURBRL = EURBRL;
+    }
 
     public BigDecimal getBid(String moeda) {
-        switch (moeda.toUpperCase()) {
-            case "USD": return USDBRL != null ? USDBRL.getBid() : null;
-            case "EUR": return EURBRL != null ? EURBRL.getBid() : null;
-            default: return null;
-        }
+        return switch (moeda.toUpperCase()) {
+            case "USD" -> USDBRL != null ? USDBRL.getBid() : null;
+            case "EUR" -> EURBRL != null ? EURBRL.getBid() : null;
+            default -> null;
+        };
     }
 }
 

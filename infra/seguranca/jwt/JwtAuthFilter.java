@@ -10,10 +10,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
@@ -34,13 +36,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String path = request.getRequestURI();
-
-        if (path.startsWith("/auth") || path.startsWith("/usuarios")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -59,21 +54,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 UserDetails userDetails =
                         usuarioDetalhesService.loadUserById(userId);
 
-                if (jwtService.tokenValido(token, userDetails)) {
+                if (jwtService.tokenValido(token)) {
 
-                    UsernamePasswordAuthenticationToken auth =
+                    UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
                                     userDetails,
                                     null,
                                     userDetails.getAuthorities()
                             );
-                    auth.setDetails(userId);
-                    auth.setDetails(
+
+                    authentication.setDetails(
                             new WebAuthenticationDetailsSource()
                                     .buildDetails(request)
                     );
+
                     SecurityContextHolder.getContext()
-                            .setAuthentication(auth);
+                            .setAuthentication(authentication);
                 }
             }
         } catch (Exception e) {

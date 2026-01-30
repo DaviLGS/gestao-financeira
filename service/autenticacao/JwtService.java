@@ -23,7 +23,7 @@ public class JwtService {
     public String gerarToken(Usuario usuario) {
 
         return Jwts.builder()
-                .setSubject(usuario.getId().toString())
+                .setSubject(usuario.getId().toString()) // ID do usuário
                 .claim("role", usuario.getRole().name())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRACAO))
@@ -35,12 +35,8 @@ public class JwtService {
         return Long.parseLong(getClaims(token).getSubject());
     }
 
-    public boolean tokenValido(String token, UserDetails userDetails) {
-
-        Long userIdToken = extrairUsuarioId(token);
-        Long userIdDetails = ((UsuarioDetalhes) userDetails).getId();
-
-        return userIdToken.equals(userIdDetails) && !tokenExpirado(token);
+    public boolean tokenValido(String token) {
+        return !tokenExpirado(token);
     }
 
     private boolean tokenExpirado(String token) {

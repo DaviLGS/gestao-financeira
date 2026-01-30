@@ -16,26 +16,19 @@ public class UsuarioDetalhesService implements UserDetailsService {
     public UsuarioDetalhesService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
+
     @Override
     public UserDetails loadUserByUsername(String email) {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        return User.builder()
-                .username(usuario.getEmail())
-                .password(usuario.getSenha())
-                .authorities(usuario.getRole().name())
-                .build();
+        return new UsuarioDetalhes(usuario);
     }
 
     public UserDetails loadUserById(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        return User.builder()
-                .username(usuario.getEmail())
-                .password(usuario.getSenha())
-                .authorities(usuario.getRole().name())
-                .build();
+        return new UsuarioDetalhes(usuario);
     }
 }
