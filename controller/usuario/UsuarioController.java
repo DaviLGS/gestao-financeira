@@ -1,10 +1,10 @@
 package financeira.gestao.demo.controller.usuario;
 
-import financeira.gestao.demo.domain.usuario.Usuario;
+import financeira.gestao.demo.domain.entities.usuario.Usuario;
 import financeira.gestao.demo.application.dto.request.UsuarioRequest;
 import financeira.gestao.demo.application.dto.response.UsuarioResponse;
-import financeira.gestao.demo.service.usuarioService.UsuarioImportService;
-import financeira.gestao.demo.service.usuarioService.UsuarioService;
+import financeira.gestao.demo.infra.service.usuarioService.UsuarioImportService;
+import financeira.gestao.demo.infra.service.usuarioService.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

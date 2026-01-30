@@ -1,6 +1,6 @@
 package financeira.gestao.demo.infra.seguranca;
 
-import financeira.gestao.demo.domain.usuario.Usuario;
+import financeira.gestao.demo.domain.entities.usuario.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

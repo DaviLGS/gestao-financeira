@@ -2,7 +2,7 @@ package financeira.gestao.demo.infra.kafka.producer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import financeira.gestao.demo.infra.kafka.event.TransacaoEvent;
-import financeira.gestao.demo.domain.transacao.Transacao;
+import financeira.gestao.demo.domain.entities.transacao.Transacao;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 

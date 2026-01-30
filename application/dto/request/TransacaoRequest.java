@@ -1,7 +1,7 @@
 package financeira.gestao.demo.application.dto.request;
 
-import financeira.gestao.demo.domain.transacao.StatusTransacao;
-import financeira.gestao.demo.domain.transacao.TipoTransacao;
+import financeira.gestao.demo.domain.entities.transacao.StatusTransacao;
+import financeira.gestao.demo.domain.entities.transacao.TipoTransacao;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;

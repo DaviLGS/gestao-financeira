@@ -1,8 +1,7 @@
 package financeira.gestao.demo.infra.seguranca;
 
-import financeira.gestao.demo.domain.usuario.Usuario;
-import financeira.gestao.demo.repository.UsuarioRepository;
-import org.springframework.security.core.userdetails.User;
+import financeira.gestao.demo.domain.entities.usuario.Usuario;
+import financeira.gestao.demo.domain.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

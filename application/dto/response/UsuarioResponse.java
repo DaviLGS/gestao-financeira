@@ -1,7 +1,7 @@
 package financeira.gestao.demo.application.dto.response;
 
-import financeira.gestao.demo.domain.usuario.Role;
-import financeira.gestao.demo.domain.usuario.Usuario;
+import financeira.gestao.demo.domain.entities.usuario.Role;
+import financeira.gestao.demo.domain.entities.usuario.Usuario;
 
 public class UsuarioResponse {
 

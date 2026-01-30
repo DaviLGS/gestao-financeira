@@ -1,8 +1,8 @@
 package financeira.gestao.demo.application.dto.response;
 
-import financeira.gestao.demo.domain.transacao.StatusTransacao;
-import financeira.gestao.demo.domain.transacao.TipoTransacao;
-import financeira.gestao.demo.domain.transacao.Transacao;
+import financeira.gestao.demo.domain.entities.transacao.StatusTransacao;
+import financeira.gestao.demo.domain.entities.transacao.TipoTransacao;
+import financeira.gestao.demo.domain.entities.transacao.Transacao;
 
 import java.math.BigDecimal;
 

@@ -2,7 +2,7 @@ package financeira.gestao.demo.controller.Authenticator;
 
 import financeira.gestao.demo.application.dto.request.LoginRequest;
 import financeira.gestao.demo.application.dto.response.LoginResponse;
-import financeira.gestao.demo.service.autenticacao.AuthService;
+import financeira.gestao.demo.infra.service.autenticacao.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
